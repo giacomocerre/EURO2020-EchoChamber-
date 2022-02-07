@@ -1,0 +1,101 @@
+\section{Introduzione}
+    
+    \myquotation{Cicerone}{De Senectute, III}{\begin{normalsize}Similes cum similibus congregantur.\end{normalsize}} 
+    
+     Il fenomeno dell'esposizione selettiva è un bias comportamentale che da sempre caratterizza la sfera sociale dell'essere umano e che, nel nostro secolo, ha permeato anche e inevitabilmente la socialità virtuale. Lo vediamo declinato e accentuato da bias algoritmici in \textit{social networks} quali Facebook e Twitter dove, al fine di soddisfare l'esperienza sociale e digitale dell'utente, le fonti di informazione disponibili vengono filtrate in base ai profili digitali degli utenti stessi. Nascono così le \textit{echo chambers}, ambienti virtuali all'interno dei quali viene raccontata una narrativa condivisa, faziosa e parziale, dove i contenuti proposti dai canali d'informazione e di intrattenimento seguono un orientamento politico e ideologico definito e in cui le interazioni avvengono tra utenti con idee e punti di vista simili: un confronto senza contraddittorio, dal quale ogni opinione ne esce tanto più rafforzata quanto più forte è la tendenza omofila\footnote{Per \textit{omofilia} si intende la tendenza di un nodo a collegarsi a nodi con caratteristiche simili.} della rete di collegamenti di cui fa parte \cite{Cinellie2023301118}. In quest'ottica, ogni dibattito genera potenzialmente due o più camere d'eco, una per ogni corrente di pensiero, che interagiscono tra loro in misura più o meno forte. 
+     
+     Questa è l'intuizione che ha posto le basi per il nostro progetto di ricerca: l'analisi della rete sociale generata dal dibattito avvenuto su Twitter, durante il Campionato europeo di calcio EURO 2020, a proposito del gesto  di inginocchiarsi portato in campo da alcuni giocatori a supporto del movimento \textit{Black Lives Matter}\footnote{\textit{Black Lives Matter} è un movimento sociale che protesta contro la violenza commessa dal corpo di polizia statunitense e, più genericamente, contro tutte le violenze di stampo razzista contro le persone nere \citep{mw:blm}. Nasce e si diffonde online grazie all’hashtag \texttt{\#BlackLivesMatter} o \texttt{\#BLM} nel 2013, dopo il rilascio del poliziotto George Zimmerman, colpevole di aver ucciso Trayvon Martin, 17enne afroamericano a Miami, Florida \cite{blm_about}.}. Il gesto si ispira a quello di Martin Luther King che, nel 1964 a Selma (Alabama), si inginocchiò in preghiera dopo l'ondata di arresti avvenuta durante una marcia pacifica per la rivendicazione del diritto di voto per gli afroamericani \cite{knees}. Già nel 2016 il giocatore di football americano Colin Kaepernick si inginocchiò durante l’esecuzione dell’inno americano, protestando contro le discriminazioni subite dalle persone afroamericane \cite{inginocchio}, ma rimase una questione circoscritta agli Stati Uniti almeno fino al 2020, quando l’omicidio di George Floyd per mano dall’agente di polizia Derek Chauvin, scatena violenti proteste in tutto il Paese \cite{protest}, rendendo il movimento BLM conosciuto su scala mondiale. 
+      
+      Arriva così negli stadi del Campionato europeo di calcio 2020 dove, nonostante la severa politica della UEFA riguardo alle manifestazioni di stampo politico in campo, il gesto viene promosso e supportato dalle Nazionali di Belgio, Galles e Inghilterra, con la formazione al completo in ginocchio nei momenti precedenti al fischio d'inizio. Ungheria, Russia e Olanda, al contrario, prendono subito le distanze. In mezzo al guado, la posizione della FIGC (Federazione Italiana Giuoco Calcio) che, pur non aderendo alla campagna, lascia libertà di scelta ai giocatori. Durante la partita Italia-Galles accade che solo cinque giocatori azzurri si inginocchiano, scatenando un acceso dibattito sui \textit{social network}, dove chi è rimasto in piedi viene da un lato accusato di razzismo e dall’altro elevato a baluardo contro la “dittatura del politicamente corretto”, facendo esplodere nelle tendenze di Twitter l'hashtag \texttt{\#iononmiinginocchio}. Infine, incalzata dal dibattito \textit{social}, la Nazionale italiana deciderà di inginocchiarsi solo se a farlo saranno prima gli avversari, ``per solidarietà e sensibilità'' verso questi ultimi e ``non per la campagna in sé'' \cite{chiellini}. 
+      
+      In questa trattazione verrà analizzata la rete sociale degli utenti che hanno preso parte al dibattito avvenuto su Twitter per tutto il periodo di svolgimento del Campionato europeo di calcio. Effettuando una discretizzazione temporale dei dati raccolti in base alle diverse partite disputate, verrà mostrata l'evoluzione delle comunità createsi all'interno della rete stessa. Inoltre verrà simulato l'impatto del peso dei legami sulla connessione e resilienza della rete, come anche l'andamento del dibattito utilizzando algoritmi di \textit{opinion dynamics}. Infine verrà indagata la presenza di camere d'eco e analizzata la loro peculiare topologia, oltre che le interazioni tra esse.
+    
+    
+\section{Data collection}
+    L’estrazione dei dati è stata condotta tramite la \textit{search} API di Twitter, utilizzando \textit{twarc}\footnote{Twarc è uno strumento da riga di comando e una libreria Python per archiviare dati JSON di Twitter. Ogni tweet è rappresentato come un oggetto JSON che corrisponde esattamente con ciò che viene restituito dall'API di Twitter. I tweets sono archiviati come JSON \textit{line-oriented} \cite{twarc}.} per interfacciarsi con essa. 
+    Al fine di ottenere una rete in grado di rappresentare in maniera esaustiva il dibattito e la sua evoluzione durante l'intera durata del Campionato UEFA Euro 2020, abbiamo richiesto e ottenuto l'\textit{Academic Research product track}, by-passando così i limiti temporali e materiali della \textit{Standard search} API. 
+    I dati sono stati raccolti dal 10 Giugno, vigilia della gara inaugurale di UEFA Euro 2020, disputata da Italia e Turchia, al 13 Luglio, due giorni dopo la finale Italia-Inghilterra. In questo lasso di tempo, la conversazione pubblica ha gravitato intorno a diversi \textit{hashtags}, alcuni riferiti alla partita disputata, altri alla competizione in generale o ancora alle ``fazioni'' dei favorevoli e dei contrari al gesto. Sfruttando la possibilità di gestire \textit{search query} avanzate offerta da \textit{twarc}, abbiamo utilizzato la seguente query, filtrando i risultati ottenuti con il tag sulla lingua italiana \texttt{lang:it}: 
+    
+    \begin{lstlisting}[ language=SQL,
+                    deletekeywords={IDENTITY},
+                    deletekeywords={[2]INT},
+                    morekeywords={clustered},
+                    framesep=5pt,
+                    xleftmargin = 0pt,
+                    xrightmargin = 0pt,
+                    framexleftmargin=5pt,
+                    framexrightmargin=0pt,
+                    frame=tb,
+                    framerule=0pt]
+(#blm OR #blacklivesmatter OR #blacklivesmetter) (#figc OR #euro2020 OR #euro2021 OR #itawal OR #italiagalles OR #italiaaustria OR #itaaus OR #itaaut OR #belita OR #italiabelgio OR #belgioitalia OR #itabel OR #italiainghilterra OR #itaeng OR #itscomingtorome) lang:it
+OR #inginocchiarsi lang:it 
+OR #iononmiinginocchio lang:it
+OR #iomiinginocchio lang:it\end{lstlisting}
+    
+    In questo modo sono stati raccolti 38898 tweet da 16675 utenti diversi.
+    
+    \subsection{Classificazione di tweets e utenti}\label{subsection:class}
+        
+        Per effuare una classificazione degli utenti della rete che traducesse la loro opinione in un valore continuo abbiamo tentato vari approcci, tra cui algoritmi di Sentiment Analysis (Vader) e di clustering (K-Means), per poi optare per una classificazione \textit{hashtag-oriented}, già altrove impiegata con successo \cite{2019, WILLIAMS2015126}, basata sull'utilizzo di hashtag tematici (a favore o contrari) nei tweets pubblicati. Nello specifico, ad ogni hashtag presente nel dataset è stato associato un valore numerico:
+        \begin{itemize}
+            \item $\pm 3$ se l'hashtag esprime una posizione nettamente contraria ($+$)/nettamente a favore ($-$) al gesto dell'inginocchiarsi. Ad esempio, la classificazione di \texttt{\#iononmiinginocchio}, \texttt{\#restainpiedi}, \texttt{\#boicottachisinginocchia} è $+3$; quella di \texttt{\#iominginocchio}, \texttt{\#taketheknee}, \texttt{\#minginocchiopervoi} è $-3$;
+            \item $\pm 1$ se l'hashtag è significativo in quanto vicino ai motivi della fazione contraria ($+$)/a favore ($-$) del gesto, ma non specifico sulla questione “inginocchiarsi”. Ad esempio, la classificazione di \texttt{\#noblm}, \texttt{\#europeanlivesmatter}, \texttt{\#blacklovesmoney} è $+1$; quella di \texttt{\#BlackLivesMatter}, \texttt{\#uncalcioalrazzismo}, \texttt{\#whiteprivilege} è $-1$;
+            \item 0 per gli hashtag neutri e/o non rilevanti. Ad esempio, \texttt{\#orban}, \texttt{\#vacciniamoci}, \texttt{\#inginocchiarsi}.
+        \end{itemize}
+    Nei tweet raccolti sono stati usati 4553 hashtags ma solo il 7.4\% è risultato essere non neutro. Più nel dettaglio, 175 hashtags hanno espresso posizioni a favore del gesto (14) o vicina ai motivi del gesto  (161), e 164 a sfavore del gesto (41) o contraria ai motivi del gesto (123).
+    Abbiamo così calcolato:
+    \begin{itemize}
+        \item per ogni tweet, il suo valore di classificazione $C_{t}$, ottenuto dalla media delle classificazioni degli hashtags $C_{h}$ in esso contenuti, calcolata sul totale di hashtags non neutri utilizzati;
+        \item per ogni utente \textit{u}, il suo valore di classificazione $C_{u}$, ottenuto dalla media delle classificazioni dei suoi tweet presenti nel nostro dataset.
+    \end{itemize} 
+    
+    In questo modo, abbiamo ottenuto la classificazione dell'opinione di un utente, descritta come una variabile continua, che consente di discernere diversi gradi di orientamento. 
+    
+    Per tutti gli utenti per il quale non è stato possibile effettuare una classificazione in base ai criteri stabiliti, in assenza di hashtags vicini all'una o all'altra fazione, oppure se presenti nella rete solo perché menzionati, si è scelto di assegnare il valore 0. 
+    
+    Questo metodo, le cui performance sono state in linea di massima più che soddisfacenti, ha generato alcuni errori, principalmente a causa dell'utilizzo di hashtags ``pesanti'' (non neutri), utilizzati solo per fare riferimento al dibattito, come nel caso di \texttt{\#BlackLivesMatter} e \texttt{\#IoNonMiInginocchio}. Per evitare di inserire ulteriori bias nelle operazioni di classificazione, si è scelto di intervenire manualmente solo in situazioni limite, come ad esempio nel caso in cui il tweet mal classificato fosse diventato virale, ostacolando, e in molti casi impedendo del tutto, la corretta classificazione di un alto numero di utenti (vedere sezione \ref{subsection:echochamb}). 
+    
+    \subsection{Formattazione dei dati}\label{subsection:format}
+    
+        La struttura finale dell'oggetto \textit{tweet} in formato JSON, opportunamente snellita da ogni informazione superflua e arricchita dalle informazioni riguardanti l'opinione, è la seguente:
+        
+        \begin{lstlisting}[ language=Python,
+                    deletekeywords={IDENTITY},
+                    deletekeywords={[2]INT},
+                    morekeywords={clustered},
+                    framesep=5pt,
+                    xleftmargin = 0pt,
+                    xrightmargin = 0pt,
+                    framexleftmargin=5pt,
+                    framexrightmargin=0pt,
+                    frame=tb,
+                    framerule=0pt]
+{
+   "tweet_id";  #id del tweet
+   "user";      #nome univoco dell'utente
+   "date";      #data e ora del tweet
+   "text";      #testo del tweet
+   "hashtags";  #hashtag utilizzati
+   "mentions";  #utenti menzionati
+   "retweets";  #utente retweettato  
+   "reply_to";  #utente commentato
+   "quote_to";  #utente quotato
+   "followers"; #numero di followers
+   "following"; #numero di following
+   "tweets";    #numero totale di tweets pubblicati dall'utente
+   "tweet_classification";  #classificazione del tweet (float tra -3 e 3)
+   "user_classification";   #classificazione dell'utente (float tra -3 e 3)
+   "vip";       #grado di popolarita' dell'utente (0,1,2)
+}
+        \end{lstlisting}
+        
+    Nella struttura compare anche l'attributo \texttt{vip}, aggiunto in un secondo momento al fine di identificare con immediatezza le personalità di spicco che hanno partecipato al dibattito: sulla base del numero di followers, questo attributo assume valore 1 se l'account ha più di 20000 followers, 2 se ne ha più di 200000 e 0 altrimenti.
+    
+    \subsection{Costruzione della rete}\label{costruzionerete}   
+    
+    La rete è stata costruita e analizzata utilizzando il modulo NetworkX\_v2.4 per Python \cite{osti_960616} e  visualizzata in Gephi\_v0.9.2 \cite{Bastian_Heymann_Jacomy_2009}.
+    
+    Prima di procedere alla costruzione della rete, abbiamo valutato differenti possibili architetture. L'ipotesi di costruire un multigrafo diretto, con collegamenti orientati e multipli fra due utenti e fra un utente e se stesso, è stata scartata in quanto la direzionalità degli \textit{edges}, in una rete sparsa come la nostra (par. \ref{misuregenerali}), avrebbe limitato l'esplorazione dei dati e, inoltre, avrebbe impedito l'utilizzo di molti algoritmi implementati esclusivamente per grafi indiretti. Partendo dal file JSON definitivo contenente 38898 tweet, abbiamo quindi costruito una rete pesata indiretta dove i nodi rappresentano gli utenti (autori di tweet, di quotes, di retweet, di risposte e utenti menzionati) e gli \textit{edges} sono le relazioni avvenute tra di essi, dove il peso di un \textit{edge} dal nodo \textit{u} al nodo \textit{v} è tanto più alto quanto maggiore è il numero di interazioni occorse tra essi e il modo in cui esse avvengono (sezione \ref{netres}).
+
+
+    

@@ -1,0 +1,176 @@
+\documentclass[9pt,twocolumn]{article}
+\usepackage{inputenc, enumitem}
+\usepackage[a4paper, top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}            % per rimpicciolire il margine superiore (ora è lo standard)
+\setlength{\columnsep}{0.6cm}                % per rimpicciolire lo spazio tra le colonne
+\newcommand\tab[1][1cm]{\hspace*{#1}}       % per il tab
+
+\usepackage[table]{xcolor}
+\definecolor{lightgray}{gray}{0.957}
+
+\newcommand{\myquotation}[3]{
+    \begin{list}{}{
+      \vspace{0.5cm}
+      \setlength\leftmargin{0.1\pdfpagewidth}
+      \setlength\parindent{0cm}
+   }
+      \item\footnotesize{#3}
+      \vspace{0cm}
+      \item\hfill{\footnotesize{#1, \emph{#2}}}
+   \end{list}
+}
+
+\usepackage{xcolor,listings}
+\usepackage{textcomp}
+\usepackage{color}
+
+\definecolor{codegreen}{HTML}{3e7d7e}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codeORANGE}{HTML}{008000}
+\definecolor{codepurple}{HTML}{ba2121}
+\definecolor{backcolour}{HTML}{f7f7f7}
+\definecolor{bookColor}{cmyk}{0,0,0,0.90}  
+\color{bookColor}
+
+\lstset{upquote=true}
+\usepackage{minted}
+\usepackage{sourcecodepro}
+
+\usepackage{letltxmacro}
+% https://tex.stackexchange.com/q/88001/5764
+\LetLtxMacro\oldttfamily\ttfamily
+\DeclareRobustCommand{\ttfamily}{\oldttfamily\csname ttsize\endcsname}
+\newcommand{\setttsize}[1]{\def\ttsize{#1}}%
+\setttsize{\footnotesize}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeORANGE},
+    numberstyle=\numberstyle,
+    stringstyle=\color{codepurple},
+    basicstyle=\setttsize{\footnotesize}\ttfamily,
+    breakatwhitespace=true,
+    breaklines=true,
+    captionpos=b,
+    %keepspaces=true,
+    %numbers=left,
+    %numbersep=0pt,
+    %showspaces=false,
+    showstringspaces=false,
+    showtabs=false
+}
+\lstset{style=mystyle}
+
+\usepackage{caption}
+\DeclareCaptionFont{xxv}{\fontsize{7}{3.5}\selectfont}
+\captionsetup{font=xxv}
+
+\usepackage[italian]{babel}
+\usepackage{colortbl}
+\setlist[itemize]{noitemsep, nolistsep} 
+\setlist[enumerate]{noitemsep, nolistsep} % per eliminare gli spazi dopo gli elenci puntati
+
+\usepackage{graphicx}
+\usepackage{stfloats}
+\usepackage{natbib}
+\usepackage{multicol} % enable multicolumn
+\usepackage{import}
+
+\usepackage{wrapfig}
+\usepackage{animate}
+\usepackage{siunitx}  
+\DeclareSIUnit\permille{\text{\textperthousand}}
+\usepackage{mathtools}
+\usepackage{etoolbox}
+\usepackage{booktabs}
+\makeatletter
+\usepackage{amsfonts} 
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, 
+    linkcolor=black,
+    filecolor=blue,
+    citecolor = black,      
+    urlcolor=blue,
+    }
+
+
+%\usepackage{titlesec}                       % spazio tra le sezioni 
+%\titlespacing*{\(sub)section}{spazio a sinistra}{spazio sopra il titolo}{spazio sotto la (sub)sezione}
+
+%\titlespacing{\subsection}{0pt}{.5\baselineskip}{.3\baselineskip}
+%\titlespacing{\section}{0pt}{1\baselineskip}{.5\baselineskip} 
+\usepackage{caption}
+\usepackage{subcaption}
+
+
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
+\makeatother
+\usepackage{multirow}
+
+\begin{document}
+
+\title{
+%\vspace{1cm}
+\textbf{Quando nasce un'echo chamber\\}
+\vspace{0.4cm}
+\large Il movimento \texttt{\#BlackLivesMatter} nel Campionato europeo di calcio 2021 \\ e il fenomeno \texttt{\#iononmiinginocchio}\\
+\vspace{1.1cm}
+}
+
+\author{
+    \and \and
+    \textbf{Chiara Buongiovanni} \\ \small{c.buongiovanni@studenti.unipi.it} \\
+    \small{507164}\\
+    \and 
+    \textbf{Roswita Candusso} \\ \small{r.candusso@studenti.unipi.it} \\
+    \small{482938}\\
+    \and \and \and
+    \textbf{Giacomo Cerretini} \\ \small{g.cerretini2@studenti.unipi.it} \\
+    \small{543999}\\
+    \and 
+    \textbf{Diego Febbe} \\
+    \small{d.febbe@studenti.unipi.it}\\
+    \small{536738} \\
+}
+\date{}
+\begin{titlepage}
+    \maketitle
+    \vspace{0.5cm}
+    \begin{abstract}
+       In questa relazione viene presentato lo studio condotto sulla rete sociale reale creata a partire dai dati estratti dal social network Twitter durante il campionato di calcio \textbf{UEFA Euro 2020} inerenti al dibattito sorto intorno al gesto dell’inginocchiarsi a sostegno del movimento \textit{Black Lives Matter} prima della partita. 
+    \end{abstract}
+    
+    \thispagestyle{empty}
+        \vspace{3cm}
+        \centering
+        Relazione del progetto finale \\
+        \Large
+        Social Network Analysis \\
+        \vspace{0.2cm}
+        \date{\small A.A. 2020/2021} \\
+        \vspace{1cm}
+        \centering
+        \includegraphics[scale=0.5]{logo2.png} 
+\end{titlepage}
+
+
+\maketitle
+
+
+%\tableofcontents
+%\include{esempio_modulo} da esempio
+
+
+\import{sections/}{modulo1}
+\import{sections/}{modulo2}
+\import{sections/}{modulo3}
+\import{sections/}{modulo4}
+\import{sections/}{modulo5} 
+\import{sections/}{modulo6} 
+
+\bibliographystyle{plain} % We choose the "plain" reference style
+\bibliography{references} 
+%\bibliographystyle{unsrt}
+%\bibliography{references}
+\end{document}
