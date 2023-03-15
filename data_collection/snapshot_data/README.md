@@ -15,4 +15,4 @@ ranges = [
 
 ## Anon tweets
 
-For anon you tweet visit this (https://anonimize-json-7wq78jx4m-giacomocerre.vercel.app/)[link]
+For anon you tweet visit this [link](https://anonimize-json-7wq78jx4m-giacomocerre.vercel.app/)
