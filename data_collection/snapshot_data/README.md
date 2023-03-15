@@ -12,3 +12,7 @@ ranges = [
     ['2021-07-10', '2021-07-11', '2021-07-12'],                             # Italia - Inghilterra (7)
 ]
 ```
+
+## Anon tweets
+
+For anon you tweet visit this (https://anonimize-json-7wq78jx4m-giacomocerre.vercel.app/)[link]
