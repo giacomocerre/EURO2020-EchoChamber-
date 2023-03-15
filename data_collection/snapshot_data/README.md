@@ -13,6 +13,6 @@ ranges = [
 ]
 ```
 
-## Anon tweets
+## Encrypt tweets data
 
-For anon your tweet visit this [link](https://anonimize-json-7wq78jx4m-giacomocerre.vercel.app/)
+For encrypt the tweets data visit this [link](https://anonimize-json-7wq78jx4m-giacomocerre.vercel.app/)
